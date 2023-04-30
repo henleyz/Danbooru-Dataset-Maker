@@ -114,3 +114,11 @@ if __name__ == "__main__":
 
                     
                     
+# , "amber_(genshin_impact)", "barbara_(genshin_impact)", "beidou__(genshin_impact)", "bennett_(genshin_impact)",
+#     "chongyun_(genshin_impact)", "diluc_(genshin_impact)", "fischl_(genshin_impact)", "jean_(genshin_impact)", "kaeya_(genshin_impact)",
+#     "keqing_(genshin_impact)", "klee_(genshin_impact)", "lisa_(genshin_impact)", "mona_(genshin_impact)", "ningguang_(genshin_impact)",
+#     "noelle_(genshin_impact)", "qiqi_(genshin_impact)", "razor_(genshin_impact)", "sucrose_(genshin_impact)", "aether_(genshin_impact)", "lumine_(genshin_impact)",
+#     "venti_(genshin_impact)", "xiangling_(genshin_impact)", "xiao_(genshin_impact)", "xingqiu_(genshin_impact)", "xinyan_(genshin_impact)","diona_(genshin_impact)","tartaglia_(genshin_impact)",
+#     "zhongli_(genshin_impact)", "albedo_(genshin_impact)", "kamisato_ayaka", "ganyu_(genshin_impact)", "hu_tao_(genshin_impact)", "rosaria_(genshin_impact)", "yanfei_(genshin_impact)",
+#     "eula_(genshin_impact)","kaedehara_kazuha", "sayu_(genshin_impact)", "yoimiya_(genshin_impact)", "raiden_shogun", "sangonomiya_kokomi", "kujou_sara", "thoma_(genshin_impact)","arataki_itto",
+#     "gorou_(genshin_impact)"

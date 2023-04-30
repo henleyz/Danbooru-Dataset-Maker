@@ -19,6 +19,7 @@ if __name__ == "__main__":
                     os.rename(os.path.join(current_directory, name, folder, file, file2), os.path.join(final_directory, f'{file2}'))
         shutil.rmtree(os.path.join(current_directory, name))
         os.rename(os.path.join(current_directory, name + '_merged'), os.path.join(current_directory, name))
+        os.rename(os.path.join(current_directory, name), os.path.join(current_directory, "dataset", name))
 
 
 
