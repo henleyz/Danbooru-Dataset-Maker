@@ -5,41 +5,49 @@ from collections import defaultdict
 import multiprocessing as mp
 import sys
 import tarfile
+import time
 
 def get_files_worker(file,exclude_and,exclude_or,include_and,include_or,rating,classif,q):
     id_list,id_dict = [],defaultdict(lambda: [])
     if classif and not include_or: raise ValueError()
-    try:
-        with open(file) as f:
-            print(f'Opened {file}')
-            for line in f:
+    count = 0
+    
+    with open(file, encoding="utf8") as f:
+        print(f'Opened {file}')
+        for line in f:
+            try:
+                count += 1
                 js = json.loads(line)
                 if rating and js['rating'] not in rating: continue
                 tag_dict = js['tags']
-                tags = []
+                
+                tags = set()
                 for t in tag_dict:
-                    tags.append(t['name'])
-                tags = ' '.join(tags)
+                    tags.add(t['name'])
+
+                #tags = ' '.join(tags)
                 if include_and is None or len([inc for inc in include_and if inc.lower() in tags]) == len(include_and):
                     if exclude_or is None or len([ex for ex in exclude_or if ex.lower() in tags]) == 0:
                         if exclude_and is None or len([ex for ex in exclude_or if ex.lower() in tags]) != len(exclude_and):
                             if include_or is None or len([inc for inc in include_or if inc.lower() in tags]) > 0:
+                                # if int(js["score"]) >= 0:
                                 if not classif:
                                     id_list.append(js['id'])
                                 else:
                                     for tg in include_or:
                                         if tg in tags:  id_dict[tg].append(js['id'])
-    except:
-        pass    
+            except:
+                pass
+    
     id_dict = dict(id_dict)
-    print(f'Exiting {file}')
+    print(f'Exiting {file} with count {count}')
     q.put(id_list.copy() if not classif else id_dict.copy())
     return id_list if not classif else id_dict
 
 def file_writer(q,classif):
     print('Writer called')
     if not classif:
-        with open('tmp/id_list.txt','w') as f:
+        with open('tmp/id_list.txt','a') as f:
             print('Writing results to id_list')
             while(True):    
                 msg = q.get()
@@ -53,7 +61,7 @@ def file_writer(q,classif):
             msg = q.get()
             if msg=='END': break
             for k in msg.keys():
-                with open(f'tmp/id_list_{k}.txt','w') as f:
+                with open(f'tmp/id_list_{k}.txt','a') as f:
                     print(f'Writing results to id_list_{k}')
                     for id in msg[k]:
                         print(f'*/{id}.*',file=f)
@@ -70,7 +78,7 @@ def handler(config_path):
         os.makedirs('tmp/meta',exist_ok=True)
         meta_path = 'tmp/meta'
         print('Getting metadata...')
-        os.system('rsync -P --verbose --ignore-existing rsync://78.46.86.149:873/danbooru2019/metadata.json.tar.xz ./tmp/meta/')
+        os.system('rsync -P --verbose --ignore-existing rsync://176.9.41.242:873/danbooru2021/metadata.json.tar.xz ./tmp/meta/')
         with tarfile.open('tmp/meta/metadata.json.tar.xz') as tar:
             tar.extractall('tmp/meta')
     classif = conf['classification']
@@ -100,5 +108,9 @@ def handler(config_path):
 
 if __name__ == "__main__":
     handler(sys.argv[1]+"config.json")
+
+
+
+
                     
                     
