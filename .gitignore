@@ -3,3 +3,5 @@ dataset
 temp
 split_dataset
 dataset copy
+__pycache__
+test

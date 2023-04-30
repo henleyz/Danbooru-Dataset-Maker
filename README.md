@@ -1,8 +1,19 @@
-# Danbooru-Dataset-Maker
-Helper scripts to download images with specific tags from the [Danbooru dataset](https://www.gwern.net/Danbooru2019). There are two scripts, one to generate file list(s) of images matching provided tags and the other to actually download the files (using Rsync's glob like functionality).
+# Character Classifier
+Adapted from danbooru dataset maker + image classifer
+
+Dataset from Danbooru2021 (https://www.gwern.net/Danbooru2021). 
 
 ## Usage
-Specify the necessary tags and metadata path(leave null if you don't have it downloaded) in the config.json file. To get only the file list, run the `generate_file_list.py` script with path to config file as argument. Otherwise run `rsync_files.py` and it will call take care of the whole proces of generating the file list and downloading images.
+
+In config.json, set "metadata path" to null. 
+
+Run generate_file_list.py. 
+
+Combine the years into a single folder. Delete years that are irrelevant (selected characters did not exist by then).
+
+Set that file location to metadata path
+
+Run `rsync_files.py`
 
 The arguments to `rsync_files.py` are:
 ```
@@ -16,6 +27,13 @@ The arguments to `rsync_files.py` are:
                         directory
 
 ```
+
+Run `process_data.py` 
+Note: includes splitfolders library
+
+Install dependencies: torch, pandas, matplotlib, seaborn 
+Run all cells of classifier.ipynb. 
+
 
 ## Config
 The config file allows you to specify tags of images that you want to include or exclude. There are 4 lists of tags that can be provided for controlling the images that end up in the final file list. These lists filter images successively in the order mentioned below. Any image that passes through all filters will end up in the final file list. Any of these lists can be left `null`, in which case all images that passed through the previous filter will also pass through this filter.
@@ -31,4 +49,4 @@ There are a few more options defined in the config file.
   
   **ratings**: This option takes a list with contents 's','q' and 'e'. They control whether the downloaded images are SFW or NSFW. The 512px version of the dataset only has SFW images so, if using 'q' or 'e' use the `-o` option with `rsync_files.py`.
   
-The example config file provided creates a classification dataset for `digimon` and `pokemon` images that necessarily have the `no_human` tag.
+The example config file provided creates a classification dataset for genshin impact characters images that necessarily have the `solo` tag.
